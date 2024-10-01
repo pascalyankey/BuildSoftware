@@ -1,0 +1,75 @@
+﻿@using Domain.Enums
+@model IEnumerable<Client.Models.WerknemerViewModel>
+
+@{
+    ViewData["Title"] = "Werknemers";
+}
+@{
+    string werfNaam = Context.Request.Query["werfNaam"];
+    var werfId = Context.Request.Query["werfId"];
+    <h1>@Html.DisplayName(werfNaam)</h1>
+}
+
+<p>
+    @Html.ActionLink("Nieuwe werknemer", "WerknemerForm", "Home", new { werfNaam = werfNaam, werfId = werfId }, null)
+    @Html.ActionLink("Werven", "Index", "Home")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Voornaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achternaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Emailadres)
+            </th>
+            <th>
+                @Html.DisplayName("Rol")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            var uniqueButton = "verwijderButton" + item.Id;
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voornaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Achternaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emailadres)
+            </td>
+            <td>
+                @{
+                    var rol = (RolType)item.RolId;
+                    @Html.DisplayName(rol.ToString())
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("WerknemerVerwijderen", "Home", FormMethod.Post, new { name = uniqueButton }))
+                {
+                    @Html.Hidden("id", item.Id)
+                    @Html.Hidden("werfNaam", werfNaam)
+                    @Html.Hidden("werfId", werfId)
+                        <a href="javascript:document.getElementsByName('@uniqueButton')[0].submit()">
+                        <span>Verwijderen</span>
+                    </a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

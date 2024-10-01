@@ -1,0 +1,42 @@
+﻿@using Domain.Enums
+@model Client.Models.WerknemerViewModel
+
+@{
+    ViewData["Title"] = "Werknemer toevoegen";
+
+    string werfNaam = Context.Request.Query["werfNaam"];
+    var werfId = Context.Request.Query["werfId"];
+}
+
+<h3><b>Werknemer toevoegen</b></h3>
+
+@using (Html.BeginForm("WerknemerToevoegen", "Home", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Voornaam: </td>
+            <td>@Html.TextBoxFor(m => m.Voornaam)</td>
+        </tr>
+        <tr>
+            <td>Achternaam: </td>
+            <td>@Html.TextBoxFor(m => m.Achternaam)</td>
+        </tr>
+        <tr>
+            <td>Emailadres: </td>
+            <td>@Html.TextBoxFor(m => m.Emailadres)</td>
+        </tr>
+        <tr>
+            <td>Rol: </td>
+            <td>
+                @Html.DropDownList("RolId",
+                         Html.GetEnumSelectList<RolType>(),
+                         "Selecteer Rol", new { @class = "form-control" })
+            </td>
+        </tr>
+            @Html.Hidden("WerfId", werfId)
+        <tr>
+            <td><input type="submit" value="Toevoegen" /></td>
+            <td><input type="button" value="Annuleren" onclick="@("window.location.href='" + @Url.Action("Werknemers", "Home", new { werfNaam = werfNaam, werfId = werfId }, null) + "'");"></td>
+        </tr>
+    </table>
+}

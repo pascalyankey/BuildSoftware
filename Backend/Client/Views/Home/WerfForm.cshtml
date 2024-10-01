@@ -1,0 +1,65 @@
+﻿@using Domain.Enums
+@model Client.Models.WerfViewModel
+
+@{
+    ViewData["Title"] = "Werf toevoegen";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript">
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+<h3><b>Werf</b></h3>
+
+@using (Html.BeginForm("WerfToevoegen", "Home", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Naam: </td>
+            <td>@Html.TextBoxFor(m => m.Naam)</td>
+        </tr>
+        <tr>
+            <td>Start Datum: </td>
+            <td> @Html.TextBoxFor(model => model.StartDatum, new { @class = "date-picker", @type = "date", @id = "datepicker" })</td>
+        </tr>
+        <tr>
+            <td>Eind Datum: </td>
+            <td> @Html.TextBoxFor(model => model.EindDatum, new { @class = "date-picker", @type="date", @id="datepicker" })</td>
+        </tr>
+        <tr>
+            <td>Status: </td>
+            <td>
+                @Html.DropDownList("Status",
+                         Html.GetEnumSelectList<Status>(),
+                         "Selecteer Status", new { @class = "form-control" })
+            </td>
+        </tr>
+    </table>
+        <h3><b>Manager</b></h3>
+    <table>
+        <tr>
+            <td>Voornaam: </td>
+            <td>@Html.TextBoxFor(m => m.Voornaam)</td>
+        </tr>
+        <tr>
+            <td>Achternaam: </td>
+            <td>@Html.TextBoxFor(m => m.Achternaam)</td>
+        </tr>
+        <tr>
+            <td>Emailadres: </td>
+            <td>@Html.TextBoxFor(m => m.Emailadres)</td>
+        </tr>
+        <tr>
+            <td>Wachtwoord: </td>
+            <td>@Html.PasswordFor(m => m.Wachtwoord)</td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Toevoegen" /></td>
+            <td><input type="button" value="Annuleren" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"></td>
+        </tr>
+    </table>
+}
